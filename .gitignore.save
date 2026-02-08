@@ -1,0 +1,15 @@
+.gitignore
+```
+Press Enter. This opens an editor.
+
+**Then paste this in the editor:**
+```
+venv/
+node_modules/
+__pycache__/
+.cache/
+*.pyc
+.DS_Store
+.env
+build/
+dist/
