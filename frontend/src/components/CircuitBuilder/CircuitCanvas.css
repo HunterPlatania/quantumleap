@@ -1,0 +1,120 @@
+.circuit-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.circuit-builder h2 {
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.gate-palette {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.gate-palette h3 {
+  font-size: 1.2rem;
+  color: #999;
+}
+
+.gate-button {
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.gate-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.qubit-selector {
+  margin-top: 1rem;
+}
+
+.qubit-selector select {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  background: #2a2a2a;
+  color: white;
+  border: 1px solid #444;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.circuit-display {
+  background: #0a0a0a;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.qubit-wires {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.wire {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.wire span {
+  font-family: 'Courier New', monospace;
+  color: #999;
+  min-width: 50px;
+}
+
+.wire-line {
+  flex: 1;
+  height: 2px;
+  background: #444;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0;
+}
+
+.gate-on-wire {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.clear-button {
+  width: 100%;
+  padding: 0.8rem;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background 0.3s;
+}
+
+.clear-button:hover {
+  background: #b91c1c;
+}
+
+.gate-count {
+  margin-top: 1rem;
+  color: #999;
+  text-align: center;
+}

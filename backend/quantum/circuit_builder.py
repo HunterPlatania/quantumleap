@@ -1,0 +1,25 @@
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
+
+class CircuitBuilder:
+    def build_circuit(self, gates, num_qubits=2):
+        qreg = QuantumRegister(num_qubits, 'q')
+        creg = ClassicalRegister(num_qubits, 'c')
+        circuit = QuantumCircuit(qreg, creg)
+        
+        for gate in gates:
+            gate_type = gate.get('type', '').lower()
+            
+            if gate_type == 'h':
+                circuit.h(gate.get('qubit', 0))
+            elif gate_type == 'x':
+                circuit.x(gate.get('qubit', 0))
+            elif gate_type == 'y':
+                circuit.y(gate.get('qubit', 0))
+            elif gate_type == 'z':
+                circuit.z(gate.get('qubit', 0))
+            elif gate_type == 'cx':
+                control = gate.get('control', 0)
+                target = gate.get('target', 1)
+                circuit.cx(control, target)
+        
+        return circuit

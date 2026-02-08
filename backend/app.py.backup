@@ -1,0 +1,68 @@
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+from quantum.circuit_builder import CircuitBuilder
+from quantum.bloch_sphere import BlochSphereCalculator
+from quantum.simulator import QuantumSimulator
+
+app = Flask(__name__)
+CORS(app)
+
+# Initialize quantum components
+circuit_builder = CircuitBuilder()
+bloch_calculator = BlochSphereCalculator()
+simulator = QuantumSimulator()
+
+@app.route('/api/health', methods=['GET'])
+def health():
+    return jsonify({'status': 'healthy', 'version': '1.0.0'})
+
+@app.route('/api/circuit/execute', methods=['POST'])
+def execute_circuit():
+    try:
+        data = request.get_json()
+        gates = data.get('gates', [])
+        num_qubits = data.get('num_qubits', 2)
+        shots = data.get('shots', 1024)
+        
+        circuit = circuit_builder.build_circuit(gates, num_qubits)
+        results = simulator.execute(circuit, shots)
+        bloch_coords = bloch_calculator.calculate_bloch_coordinates(circuit, num_qubits)
+        
+        return jsonify({
+            'success': True,
+            'counts': results['counts'],
+            'probabilities': results['probabilities'],
+            'bloch_vectors': bloch_coords
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+@app.route('/api/tutorials', methods=['GET'])
+def get_tutorials():
+    tutorials = [
+        {'id': 'superposition', 'title': 'Introduction to Superposition', 'difficulty': 'beginner'},
+        {'id': 'measurement', 'title': 'Quantum Measurement', 'difficulty': 'beginner'},
+        {'id': 'entanglement', 'title': 'Quantum Entanglement', 'difficulty': 'intermediate'},
+        {'id': 'bell_states', 'title': 'Bell States', 'difficulty': 'intermediate'},
+        {'id': 'quantum_gates', 'title': 'Quantum Gates', 'difficulty': 'intermediate'}
+    ]
+    return jsonify({'success': True, 'tutorials': tutorials})
+
+@app.route('/api/gates', methods=['GET'])
+def get_gates():
+    gates = {
+        'single_qubit': [
+            {'id': 'h', 'name': 'Hadamard', 'symbol': 'H', 'color': '#4F46E5'},
+            {'id': 'x', 'name': 'Pauli-X', 'symbol': 'X', 'color': '#DC2626'},
+            {'id': 'y', 'name': 'Pauli-Y', 'symbol': 'Y', 'color': '#059669'},
+            {'id': 'z', 'name': 'Pauli-Z', 'symbol': 'Z', 'color': '#7C3AED'}
+        ],
+        'two_qubit': [
+            {'id': 'cx', 'name': 'CNOT', 'symbol': '⊕', 'color': '#EA580C'}
+        ]
+    }
+    return jsonify({'success': True, 'gates': gates})
+
+if __name__ == '__main__':
+    print("🚀 QuantumLeap Backend Starting...")
+    app.run(host='0.0.0.0', port=5000, debug=True)
